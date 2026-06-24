@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Task = require('./tasks');
+const Task = require('../models/Task');
 const { protect, adminOnly } = require('../middleware/authMiddleware');
 
 // CREATE TASK (admin only)
