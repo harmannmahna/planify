@@ -19,8 +19,6 @@ app.use(cors({
   credentials: true
 }));
 
-// 3. Handle preflight
-app.options('*', cors());
 
 // 4. ROUTES AFTER CORS (VERY IMPORTANT)
 app.use('/api/room', require('./routes/room'));
