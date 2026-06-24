@@ -80,7 +80,7 @@ export default function Dashboard() {
           <div style={{ background: '#1a1a2e', border: '1px solid #ffd700', borderRadius: '8px', padding: '8px 16px', color: '#ffd700', fontFamily: "'Press Start 2P', monospace", fontSize: '12px' }}>
             ⭐ {points} pts
           </div>
-          <button onClick={() => window.location.href = '/room'} style={{ background: '#e94560', border: 'none', color: 'white', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px' }}>
+          <button onClick={() => window.location.href = '/#/room'} style={{ background: '#e94560', border: 'none', color: 'white', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px' }}>
             🏠 Room
           </button>
           <button onClick={() => dispatch(logout())} style={{ background: 'transparent', border: '1px solid #444', color: '#aaa', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px' }}>
@@ -161,7 +161,7 @@ export default function Dashboard() {
             <div style={{ background: 'linear-gradient(180deg, #16213e 60%, #8B6914 60%)', borderRadius: '8px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', marginBottom: '12px' }}>
               🖥️ 🌵 💡
             </div>
-            <button onClick={() => window.location.href = '/room'} style={{
+            <button onClick={() => window.location.href = '/#/room'} style={{
               width: '100%', background: '#e94560', border: 'none', color: 'white',
               padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '12px'
             }}>Decorate room →</button>
