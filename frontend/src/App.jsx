@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -13,7 +13,7 @@ function HomeRedirect() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<Login />} />
@@ -24,6 +24,6 @@ export default function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
