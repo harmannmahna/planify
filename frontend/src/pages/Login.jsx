@@ -25,7 +25,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-sm bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-        <h1 className="text-2xl font-bold text-indigo-600 mb-1 text-center">TaskFlow</h1>
+        <h1 className="text-2xl font-bold text-indigo-600 mb-1 text-center">Planify</h1>
         <p className="text-sm text-slate-500 text-center mb-6">Log in to your account</p>
 
         {error && (
