@@ -1,7 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTasks, updateTask, createTask, deleteTask } from '../features/tasks/tasksSlice';
 import { logout } from '../features/auth/authSlice';
+import Pomodoro from '../components/Pomodoro';
+import TaskFormModal from '../components/TaskFormModal';
 import api from '../api/axios';
 
 export default function Dashboard() {
@@ -11,59 +13,58 @@ export default function Dashboard() {
   const [points, setPoints] = useState(0);
   const [filter, setFilter] = useState('all');
   const [showModal, setShowModal] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
 
-  // Pomodoro state
-  const [timeLeft, setTimeLeft] = useState(25 * 60);
-  const [isRunning, setIsRunning] = useState(false);
-  const [pomMode, setPomMode] = useState('work');
-  const [sessions, setSessions] = useState(0);
-  const timerRef = useRef(null);
+  const isAdmin = user?.role === 'admin';
 
   useEffect(() => {
     dispatch(fetchTasks());
-    api.get('/auth/me').then(r => setPoints(r.data.points || 0));
+    fetchPoints();
   }, []);
 
-  useEffect(() => {
-    if (isRunning) {
-      timerRef.current = setInterval(() => {
-        setTimeLeft(t => {
-          if (t <= 1) {
-            clearInterval(timerRef.current);
-            handlePomEnd();
-            return 0;
-          }
-          return t - 1;
-        });
-      }, 1000);
+  const fetchPoints = async () => {
+    try {
+      const res = await api.get('/room');
+      setPoints(res.data.points || 0);
+    } catch (err) {
+      // non-fatal
     }
-    return () => clearInterval(timerRef.current);
-  }, [isRunning]);
+  };
 
-  const handlePomEnd = async () => {
-    setIsRunning(false);
-    if (pomMode === 'work') {
-      setSessions(s => s + 1);
-      const res = await api.post('/auth/add-points', { points: 15 });
-      setPoints(res.data.points);
-      alert('🍅 Pomodoro done! +15 pts earned!');
-      setPomMode('break');
-      setTimeLeft(5 * 60);
-    } else {
-      setPomMode('work');
-      setTimeLeft(25 * 60);
-    }
+  const handlePointsEarned = (earned) => {
+    setPoints(prev => prev + earned);
   };
 
   const handleComplete = async (task) => {
     if (task.status === 'completed') return;
-    const res = await dispatch(updateTask({ id: task._id, status: 'completed' }));
-    const pointRes = await api.get('/auth/me');
-    setPoints(pointRes.data.points);
+    await dispatch(updateTask({ id: task._id, updates: { status: 'completed' } }));
+    fetchPoints();
   };
 
-  const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-  const secs = String(timeLeft % 60).padStart(2, '0');
+  const handleCreate = () => {
+    setEditingTask(null);
+    setShowModal(true);
+  };
+
+  const handleEdit = (task) => {
+    setEditingTask(task);
+    setShowModal(true);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm('Delete this task?')) {
+      dispatch(deleteTask(id));
+    }
+  };
+
+  const handleSubmit = async (formData) => {
+    if (editingTask) {
+      await dispatch(updateTask({ id: editingTask._id, updates: formData }));
+    } else {
+      await dispatch(createTask(formData));
+    }
+    setShowModal(false);
+  };
 
   const completed = tasks.filter(t => t.status === 'completed').length;
   const filtered = filter === 'all' ? tasks : tasks.filter(t => t.status === filter);
@@ -91,12 +92,11 @@ export default function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
         {[
           { label: 'Total tasks', value: tasks.length, color: 'white' },
           { label: 'Completed', value: completed, color: '#4ade80' },
           { label: 'In progress', value: tasks.filter(t => t.status === 'in-progress').length, color: '#fbbf24' },
-          { label: 'Pomodoros', value: sessions, color: '#c084fc' },
         ].map(s => (
           <div key={s.label} style={{ background: '#16213e', borderRadius: '12px', padding: '16px', border: '1px solid #1e2a4a' }}>
             <p style={{ margin: '0 0 8px', fontSize: '12px', color: '#a8dadc' }}>{s.label}</p>
@@ -110,9 +110,9 @@ export default function Dashboard() {
         {/* Tasks */}
         <div style={{ background: '#16213e', borderRadius: '12px', padding: '20px', border: '1px solid #1e2a4a' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '500' }}>My Tasks</h2>
+            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '500' }}>{isAdmin ? 'All Tasks' : 'My Tasks'}</h2>
             <div style={{ display: 'flex', gap: '8px' }}>
-              {['all', 'todo', 'in-progress', 'completed'].map(f => (
+              {['all', 'pending', 'in-progress', 'completed'].map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
                   background: filter === f ? '#e94560' : 'transparent',
                   border: '1px solid ' + (filter === f ? '#e94560' : '#333'),
@@ -120,7 +120,9 @@ export default function Dashboard() {
                   cursor: 'pointer', fontSize: '11px'
                 }}>{f}</button>
               ))}
-              <button onClick={() => setShowModal(true)} style={{ background: '#e94560', border: 'none', color: 'white', padding: '4px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}>+ Add</button>
+              {isAdmin && (
+                <button onClick={handleCreate} style={{ background: '#e94560', border: 'none', color: 'white', padding: '4px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}>+ Add</button>
+              )}
             </div>
           </div>
 
@@ -144,6 +146,12 @@ export default function Dashboard() {
               {task.status !== 'completed' && (
                 <span style={{ fontSize: '10px', color: '#ffd700' }}>+10 pts</span>
               )}
+              {isAdmin && (
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <button onClick={() => handleEdit(task)} style={{ background: 'transparent', border: '1px solid #444', color: '#a8dadc', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Edit</button>
+                  <button onClick={() => handleDelete(task._id)} style={{ background: 'transparent', border: '1px solid #e94560', color: '#e94560', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Del</button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -151,26 +159,7 @@ export default function Dashboard() {
         {/* Right sidebar */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-          {/* Pomodoro */}
-          <div style={{ background: '#1a1a2e', border: '2px solid #e94560', borderRadius: '12px', padding: '20px', textAlign: 'center', fontFamily: "'Press Start 2P', monospace" }}>
-            <p style={{ fontSize: '9px', color: pomMode === 'work' ? '#a8dadc' : '#4ade80', margin: '0 0 8px' }}>
-              {pomMode === 'work' ? '🍅 FOCUS' : '☕ BREAK'} · {sessions} done
-            </p>
-            <p style={{ fontSize: '32px', color: pomMode === 'work' ? '#e94560' : '#4ade80', margin: '0 0 16px' }}>
-              {mins}:{secs}
-            </p>
-            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-              <button onClick={() => setIsRunning(r => !r)} style={{
-                background: '#e94560', border: 'none', color: 'white',
-                padding: '8px 16px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '8px', borderRadius: '4px'
-              }}>{isRunning ? '⏸ PAUSE' : '▶ START'}</button>
-              <button onClick={() => { clearInterval(timerRef.current); setIsRunning(false); setTimeLeft(pomMode === 'work' ? 25*60 : 5*60); }} style={{
-                background: 'transparent', border: '2px solid #e94560', color: 'white',
-                padding: '8px 16px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '8px', borderRadius: '4px'
-              }}>↺</button>
-            </div>
-            <p style={{ fontSize: '8px', color: '#ffd700', margin: '12px 0 0' }}>finish = +15 pts</p>
-          </div>
+          <Pomodoro onPointsEarned={handlePointsEarned} />
 
           {/* Room preview */}
           <div style={{ background: '#1a1a2e', border: '1px solid #333', borderRadius: '12px', padding: '16px' }}>
@@ -186,6 +175,14 @@ export default function Dashboard() {
 
         </div>
       </div>
+
+      <TaskFormModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handleSubmit}
+        initialData={editingTask}
+        users={[]}
+      />
     </div>
   );
 }

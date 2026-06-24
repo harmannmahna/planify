@@ -30,7 +30,7 @@ export default function Pomodoro({ onPointsEarned }) {
       setSessions(s => s + 1);
       // Award 15 points for completing a pomodoro
       try {
-        await api.post('/auth/add-points', { points: 15 });
+        await api.post('/room/add-points', { points: 15 });
         onPointsEarned?.(15);
       } catch (e) {}
       setMode('break');

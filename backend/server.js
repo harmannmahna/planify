@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+app.use('/api/room', require('./routes/room'));
 
 app.use(cors({
   origin: ['http://localhost:5173', 'https://planify1.onrender.com']

@@ -33,8 +33,18 @@ router.get('/', protect, async (req, res) => {
 // UPDATE TASK
 router.put('/:id', protect, async (req, res) => {
   try {
+    const existingTask = await Task.findById(req.params.id);
+    if (!existingTask) return res.status(404).json({ message: 'Task not found' });
+
+    const wasCompleted = existingTask.status === 'completed';
+    const willBeCompleted = req.body.status === 'completed';
+
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!task) return res.status(404).json({ message: 'Task not found' });
+
+    if (!wasCompleted && willBeCompleted) {
+      await User.findByIdAndUpdate(req.user.id, { $inc: { points: 10 } });
+    }
+
     res.status(200).json(task);
   } catch (err) {
     res.status(500).json({ message: err.message });
