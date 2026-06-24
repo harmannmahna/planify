@@ -9,6 +9,39 @@ const SHOP_ITEMS = [
   { id: 'cat', name: 'Cat', cost: 50, emoji: '🐱' },
   { id: 'bookshelf', name: 'Bookshelf', cost: 40, emoji: '📚' },
   { id: 'rug', name: 'Rug', cost: 25, emoji: '🟥' },
+
+  // 🛏️ Bedroom items
+  { id: 'bed_single', name: 'Single Bed', cost: 60, emoji: '🛏️' },
+  { id: 'bed_double', name: 'Double Bed', cost: 90, emoji: '🛏️' },
+  { id: 'sofa_bed', name: 'Sofa Bed', cost: 85, emoji: '🛋️' },
+  { id: 'mattress', name: 'Mattress', cost: 35, emoji: '🛌' },
+  { id: 'pillow_set', name: 'Pillow Set', cost: 10, emoji: '🪶' },
+  { id: 'blanket', name: 'Blanket', cost: 20, emoji: '🧺' },
+
+  // 🪟 Curtains
+  { id: 'curtain_blackout', name: 'Blackout Curtain', cost: 25, emoji: '🪟' },
+  { id: 'curtain_sheer', name: 'Sheer Curtain', cost: 18, emoji: '🪟' },
+  { id: 'curtain_printed', name: 'Printed Curtain', cost: 22, emoji: '🪟' },
+  { id: 'door_curtain', name: 'Door Curtain', cost: 20, emoji: '🚪' },
+
+  // 📚 Study / Work
+  { id: 'study_table', name: 'Study Table', cost: 45, emoji: '📖' },
+  { id: 'laptop_table', name: 'Laptop Table', cost: 30, emoji: '💻' },
+  { id: 'gaming_desk', name: 'Gaming Desk', cost: 70, emoji: '🎮' },
+  { id: 'chair_ergonomic', name: 'Ergonomic Chair', cost: 55, emoji: '🪑' },
+
+  // 🌿 Plants & Flowers
+  { id: 'money_plant', name: 'Money Plant', cost: 15, emoji: '🌿' },
+  { id: 'snake_plant', name: 'Snake Plant', cost: 20, emoji: '🌱' },
+  { id: 'peace_lily', name: 'Peace Lily', cost: 25, emoji: '🌸' },
+  { id: 'bonsai', name: 'Bonsai', cost: 60, emoji: '🌳' },
+  { id: 'succulent_set', name: 'Succulent Set', cost: 18, emoji: '🪴' },
+
+  // 🪴 Pots & Decor
+  { id: 'ceramic_pot', name: 'Ceramic Pot', cost: 12, emoji: '🏺' },
+  { id: 'hanging_pot', name: 'Hanging Pot', cost: 14, emoji: '🪢' },
+  { id: 'flower_vase', name: 'Flower Vase', cost: 16, emoji: '🌷' },
+  { id: 'artificial_flowers', name: 'Artificial Flowers', cost: 10, emoji: '💐' }
 ];
 
 // Pixel positions for each item in the room grid (16x12 grid)
