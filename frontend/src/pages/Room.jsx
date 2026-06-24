@@ -31,7 +31,7 @@ export default function Room() {
   }, []);
 
   const fetchUserData = async () => {
-    const res = await api.get('/auth/me');
+    const res = await api.get('/room');
     setPoints(res.data.points || 0);
     setOwnedItems(res.data.room?.items || []);
   };
@@ -48,7 +48,7 @@ export default function Room() {
       return;
     }
     try {
-      const res = await api.post('/auth/buy-item', { itemId: item.id, cost: item.cost });
+      const res = await api.post('/room/buy', { itemId: item.id, cost: item.cost });
       setPoints(res.data.points);
       setOwnedItems(res.data.room.items);
       setMessage(`Bought ${item.name}!`);
