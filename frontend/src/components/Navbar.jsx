@@ -14,7 +14,8 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-      <h1 className="text-xl font-bold text-indigo-600">TaskFlow</h1>
+      <h1 className="text-xl font-bold text-indigo-600">Planify
+      </h1>
       <div className="flex items-center gap-4">
         <span className="text-sm text-slate-600">
           {user?.name} <span className="text-xs text-slate-400">({user?.role})</span>
