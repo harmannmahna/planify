@@ -41,5 +41,27 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+// GET /api/auth/me — return user points + room
+router.get('/me', auth, async (req, res) => {
+  const user = await User.findById(req.user.id).select('-password');
+  res.json(user);
+});
+
+// POST /api/auth/buy-item
+router.post('/buy-item', auth, async (req, res) => {
+  const { itemId, cost } = req.body;
+  const user = await User.findById(req.user.id);
+  
+  if (user.points < cost) return res.status(400).json({ message: 'Not enough points' });
+  
+  const currentItems = user.room?.items || [];
+  if (currentItems.includes(itemId)) return res.status(400).json({ message: 'Already owned' });
+
+  user.points -= cost;
+  user.room = { ...user.room, items: [...currentItems, itemId] };
+  await user.save();
+  
+  res.json({ points: user.points, room: user.room });
+});
 
 module.exports = router;

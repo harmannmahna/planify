@@ -4,7 +4,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import Room from './pages/Room';
+// inside your routes:
+<Route path="/room" element={<ProtectedRoute><Room /></ProtectedRoute>} />
 function HomeRedirect() {
   const { token } = useSelector((state) => state.auth);
   return <Navigate to={token ? '/dashboard' : '/login'} replace />;

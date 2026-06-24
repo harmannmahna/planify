@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 const { protect, adminOnly } = require('../middleware/authMiddleware');
+const User = require('../models/User');
 
 // CREATE TASK (admin only)
 router.post('/', protect, adminOnly, async (req, res) => {
@@ -35,6 +36,31 @@ router.put('/:id', protect, async (req, res) => {
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!task) return res.status(404).json({ message: 'Task not found' });
     res.status(200).json(task);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+// When task status changes to 'completed', award points
+router.patch('/:id', protect, async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    const wasCompleted = task.status === 'completed';
+    const nowCompleted = req.body.status === 'completed';
+
+    const updated = await Task.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    // Award 10 points if just completed
+    if (!wasCompleted && nowCompleted) {
+      await User.findByIdAndUpdate(req.user.id, {
+        $inc: { points: 10 }
+      });
+    }
+
+    res.json(updated);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
