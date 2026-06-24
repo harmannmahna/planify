@@ -77,4 +77,13 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
   }
 });
 
+router.post('/add-points', protect, async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { $inc: { points: req.body.points } },
+    { new: true }
+  );
+  res.json({ points: user.points });
+});
+
 module.exports = router;
