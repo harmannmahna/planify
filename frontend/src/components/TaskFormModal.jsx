@@ -45,12 +45,13 @@ export default function TaskFormModal({ isOpen, onClose, onSubmit, initialData, 
           <div>
             <label className="block text-sm font-medium text-slate-600 mb-1">Title</label>
             <input
-              name="title"
-              value={form.title}
-              onChange={handleChange}
-              required
-              className="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+                required
+                style={{ color: 'black' }}
+                className="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
           </div>
 
           <div>
