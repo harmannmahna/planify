@@ -38,10 +38,17 @@ router.put('/:id', protect, async (req, res) => {
 
     const wasCompleted = existingTask.status === 'completed';
     const willBeCompleted = req.body.status === 'completed';
+    
+
+    console.log('PUT HIT');
+    console.log('Old status:', existingTask.status);
+    console.log('New status:', req.body.status);
 
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
     if (!wasCompleted && willBeCompleted) {
+      console.log('AWARDING 10 POINTS');
+
       await User.findByIdAndUpdate(req.user.id, { $inc: { points: 10 } });
     }
 
