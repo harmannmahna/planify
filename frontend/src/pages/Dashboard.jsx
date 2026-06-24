@@ -67,7 +67,10 @@ export default function Dashboard() {
   };
 
   const completed = tasks.filter(t => t.status === 'completed').length;
-  const filtered = filter === 'all' ? tasks : tasks.filter(t => t.status === filter);
+  const filtered = tasks.filter(t => {
+  const matchesFilter = filter === 'all' ? true : t.status === filter;
+  return matchesFilter;
+});
 
   return (
     <div style={{ minHeight: '100vh', background: '#0f0f1a', color: 'white', padding: '24px', fontFamily: 'system-ui, sans-serif' }}>
@@ -124,7 +127,11 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {filtered.length === 0 && <p style={{ color: '#666', textAlign: 'center', padding: '40px 0' }}>No tasks found.</p>}
+          {tasks.length === 0 && (
+              <p style={{ color: '#666', textAlign: 'center', padding: '40px 0' }}>
+                No tasks found.
+              </p>
+          )}
 
           {filtered.map(task => (
             <div key={task._id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 0', borderBottom: '1px solid #1e2a4a' }}>
