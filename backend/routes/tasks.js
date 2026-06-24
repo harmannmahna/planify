@@ -10,7 +10,7 @@ router.post('/', protect, async (req, res) => {
     const { title, description, status, priority, assignedTo } = req.body;
     const task = await Task.create({
       title, description, status, priority,
-      assignedTo, createdBy: req.user.id
+      assignedTo: assignedTo || req.user.id, createdBy: req.user.id
     });
     res.status(201).json(task);
   } catch (err) {
