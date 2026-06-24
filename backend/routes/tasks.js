@@ -5,7 +5,7 @@ const { protect, adminOnly } = require('../middleware/authMiddleware');
 const User = require('../models/User');
 
 // CREATE TASK (admin only)
-router.post('/', protect, async (req, res) => { {
+router.post('/', protect, async (req, res) => { 
   try {
     const { title, description, status, priority, assignedTo } = req.body;
     const task = await Task.create({
