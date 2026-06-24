@@ -5,8 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import Room from './pages/Room';
-// inside your routes:
-<Route path="/room" element={<ProtectedRoute><Room /></ProtectedRoute>} />
+
 function HomeRedirect() {
   const { token } = useSelector((state) => state.auth);
   return <Navigate to={token ? '/dashboard' : '/login'} replace />;
@@ -19,11 +18,10 @@ export default function App() {
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/room" element={<Room />} />
         </Route>
-
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
