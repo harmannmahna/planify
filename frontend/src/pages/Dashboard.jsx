@@ -5,6 +5,7 @@ import { logout } from '../features/auth/authSlice';
 import Pomodoro from '../components/Pomodoro';
 import TaskFormModal from '../components/TaskFormModal';
 import api from '../api/axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const [filter, setFilter] = useState('all');
   const [showModal, setShowModal] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchTasks());
