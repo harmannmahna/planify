@@ -5,7 +5,7 @@ const { protect, adminOnly } = require('../middleware/authMiddleware');
 const User = require('../models/User');
 
 // CREATE TASK (admin only)
-router.post('/', protect, adminOnly, async (req, res) => {
+router.post('/', protect, async (req, res) => { {
   try {
     const { title, description, status, priority, assignedTo } = req.body;
     const task = await Task.create({
@@ -77,7 +77,7 @@ router.patch('/:id', protect, async (req, res) => {
 });
 
 // DELETE TASK (admin only)
-router.delete('/:id', protect, adminOnly, async (req, res) => {
+router.delete('/:id', protect, async (req, res) => { {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);
     if (!task) return res.status(404).json({ message: 'Task not found' });

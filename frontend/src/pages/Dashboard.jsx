@@ -15,8 +15,6 @@ export default function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
-  const isAdmin = user?.role === 'admin';
-
   useEffect(() => {
     dispatch(fetchTasks());
     fetchPoints();
@@ -110,7 +108,7 @@ export default function Dashboard() {
         {/* Tasks */}
         <div style={{ background: '#16213e', borderRadius: '12px', padding: '20px', border: '1px solid #1e2a4a' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '500' }}>{isAdmin ? 'All Tasks' : 'My Tasks'}</h2>
+            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '500' }}>My Tasks</h2>
             <div style={{ display: 'flex', gap: '8px' }}>
               {['all', 'pending', 'in-progress', 'completed'].map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
@@ -120,9 +118,7 @@ export default function Dashboard() {
                   cursor: 'pointer', fontSize: '11px'
                 }}>{f}</button>
               ))}
-              {isAdmin && (
-                <button onClick={handleCreate} style={{ background: '#e94560', border: 'none', color: 'white', padding: '4px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}>+ Add</button>
-              )}
+              <button onClick={handleCreate} style={{ background: '#e94560', border: 'none', color: 'white', padding: '4px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}>+ Add</button>
             </div>
           </div>
 
@@ -146,12 +142,10 @@ export default function Dashboard() {
               {task.status !== 'completed' && (
                 <span style={{ fontSize: '10px', color: '#ffd700' }}>+10 pts</span>
               )}
-              {isAdmin && (
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <button onClick={() => handleEdit(task)} style={{ background: 'transparent', border: '1px solid #444', color: '#a8dadc', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Edit</button>
-                  <button onClick={() => handleDelete(task._id)} style={{ background: 'transparent', border: '1px solid #e94560', color: '#e94560', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Del</button>
-                </div>
-              )}
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <button onClick={() => handleEdit(task)} style={{ background: 'transparent', border: '1px solid #444', color: '#a8dadc', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Edit</button>
+                <button onClick={() => handleDelete(task._id)} style={{ background: 'transparent', border: '1px solid #e94560', color: '#e94560', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Del</button>
+              </div>
             </div>
           ))}
         </div>
