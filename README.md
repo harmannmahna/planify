@@ -1,24 +1,7 @@
-# TaskFlow Frontend (React + Vite)
+# Planify
 
 A React frontend wired to your existing Express/MongoDB backend (auth + tasks).
 
-## ⚠️ One backend fix needed first
-
-In `backend/routes/tasks.js`, line 3 currently says:
-
-```js
-const Task = require('./tasks');
-```
-
-That points back to the routes folder itself (a file requiring itself), which will crash or return the wrong thing. It should point to your models folder instead:
-
-```js
-const Task = require('../models/Task');
-```
-
-I've included the missing `models/Task.js` file in this delivery (see `Task.js` alongside this README) — drop it into `backend/models/Task.js`, then fix that one import line above.
-
-The schema matches exactly what your route already sends: `title`, `description`, `status`, `priority`, `assignedTo`, `createdBy`.
 
 ## Setup
 
