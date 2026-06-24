@@ -63,5 +63,13 @@ router.post('/buy-item', auth, async (req, res) => {
   
   res.json({ points: user.points, room: user.room });
 });
+router.post('/add-points', auth, async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { $inc: { points: req.body.points } },
+    { new: true }
+  );
+  res.json({ points: user.points });
+});
 
 module.exports = router;
