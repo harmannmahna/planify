@@ -7,7 +7,11 @@ const app = express();
 app.use('/api/room', require('./routes/room'));
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://planify1.onrender.com']
+  origin: [
+    'http://localhost:5173',
+    'https://planify1.onrender.com'
+  ],
+  credentials: true
 }));
 app.use(express.json());
 
