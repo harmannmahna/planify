@@ -5,7 +5,9 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://planify1.onrender.com']
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
