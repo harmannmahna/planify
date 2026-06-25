@@ -17,47 +17,48 @@ Most task managers just let you check off tasks. Planify turns productivity into
 
 ## 🖥️ Screenshots
 
-### 1) Login Page
-Pixel art themed login with dark UI and Press Start 2P font.
-
-![Login Page](./screenshots/login_page_planify.png)
+### 1) Login & Register
+Pixel art themed authentication with dark UI and Press Start 2P font.
+<div align="center">
+  <img src="./login%20page%20planify.png" width="45%">
+</div>
 
 ### 2) Dashboard
-Full task management dashboard with Pomodoro timer, points tracker, and room preview.
+Full task management with Pomodoro timer, points tracker, and room preview.
+<div align="center">
+  <img src="./dash%20board%20planify.png" width="90%">
+</div>
 
-![Dashboard](./screenshots/dash_board_planify.png)
+### 3) Create & Manage Tasks
+Add tasks with title, description, status and priority. Complete tasks to earn points.
+<div align="center">
+  <img src="./create%20task%20planify.png" width="45%">
+  <img src="./dashboard%20task.png" width="45%">
+</div>
 
-### 3) Create Task
-Add tasks with title, description, status, and priority.
+### 4) Points System
+Earn +10 points per completed task, +15 points per Pomodoro session.
+<div align="center">
+  <img src="./get%20points.png" width="90%">
+</div>
 
-![Create Task](./screenshots/create_task_planify.png)
+### 5) Pomodoro Timer
+Built-in 25/5 minute Pomodoro timer with pixel art styling.
+<div align="center">
+  <img src="./pomodoro%20planify.png" width="45%">
+</div>
 
-### 4) Task Management
-View, complete, edit, and delete tasks. Completing a task earns points in real time.
+### 6) My Room
+Your personal pixel art room — place furniture bought from the shop.
+<div align="center">
+  <img src="./room%20planify.png" width="90%">
+</div>
 
-![Tasks](./screenshots/dashboard_task.png)
-
-### 5) Points System
-Earn points by completing tasks and finishing Pomodoro sessions.
-
-![Points](./screenshots/get_points.png)
-
-### 6) Pomodoro Timer
-Built-in 25/5 minute Pomodoro timer with pixel art styling. Earn +15 pts per session.
-
-![Pomodoro](./screenshots/pomodoro_planify.png)
-
-### 7) My Room
-Your personal pixel art room — place furniture you've bought from the shop.
-
-![Room](./screenshots/room_planify.png)
-
-### 8) Shop
-Buy furniture and decor items using earned points. Items appear in your room instantly.
-
-![Shop](./screenshots/itemsplanify.png)
-
----
+### 7) Shop — Spend Your Points
+20+ furniture and decor items. Owned items appear in your room instantly.
+<div align="center">
+  <img src="./itemsplanify.png" width="90%">
+</div>
 
 ## 🚀 Features
 
