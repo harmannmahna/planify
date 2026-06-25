@@ -1,62 +1,215 @@
-# Planify
+# 📋 Planify — Task Manager + Room Builder
 
-A React frontend wired to your existing Express/MongoDB backend (auth + tasks).
+A full-stack productivity web app where you complete tasks, earn points, and spend them to decorate your own pixel art room. Built with the MERN stack.
 
+**Live Demo:** https://planify1.onrender.com
 
-## Setup
+---
 
+## ✨ What Makes It Different
+
+Most task managers just let you check off tasks. Planify turns productivity into a game:
+- ✅ Complete a task → earn **+10 points**
+- 🍅 Finish a Pomodoro session → earn **+15 points**
+- 🏠 Spend points in the **Room Shop** to buy furniture and decorate your pixel room
+
+---
+
+## 🖥️ Screenshots
+
+### 1) Login Page
+Pixel art themed login with dark UI and Press Start 2P font.
+
+![Login Page](./screenshots/login_page_planify.png)
+
+### 2) Dashboard
+Full task management dashboard with Pomodoro timer, points tracker, and room preview.
+
+![Dashboard](./screenshots/dash_board_planify.png)
+
+### 3) Create Task
+Add tasks with title, description, status, and priority.
+
+![Create Task](./screenshots/create_task_planify.png)
+
+### 4) Task Management
+View, complete, edit, and delete tasks. Completing a task earns points in real time.
+
+![Tasks](./screenshots/dashboard_task.png)
+
+### 5) Points System
+Earn points by completing tasks and finishing Pomodoro sessions.
+
+![Points](./screenshots/get_points.png)
+
+### 6) Pomodoro Timer
+Built-in 25/5 minute Pomodoro timer with pixel art styling. Earn +15 pts per session.
+
+![Pomodoro](./screenshots/pomodoro_planify.png)
+
+### 7) My Room
+Your personal pixel art room — place furniture you've bought from the shop.
+
+![Room](./screenshots/room_planify.png)
+
+### 8) Shop
+Buy furniture and decor items using earned points. Items appear in your room instantly.
+
+![Shop](./screenshots/itemsplanify.png)
+
+---
+
+## 🚀 Features
+
+**Task Management**
+- Create, edit, delete tasks
+- Set status: Pending / In Progress / Completed
+- Set priority: Low / Medium / High
+- Filter tasks by status
+
+**Points & Rewards System**
+- Earn 10 points per completed task
+- Earn 15 points per completed Pomodoro session
+- Points persist across sessions via MongoDB
+
+**Pomodoro Timer**
+- 25 minute focus sessions
+- 5 minute break sessions
+- Session counter
+- Bonus points on completion
+
+**Pixel Room Builder**
+- Personal room with pixel art aesthetic
+- Buy furniture from the shop using earned points
+- Items placed in room persist across sessions
+- 20+ items available: desk, bed, cat, bookshelf, curtains, and more
+
+**Authentication**
+- JWT-based login and registration
+- bcrypt password hashing
+- Protected routes
+- Persistent sessions
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend**
+- React.js
+- Redux Toolkit
+- React Router DOM
+- Tailwind CSS
+- Axios
+
+**Backend**
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- JWT Authentication
+- bcryptjs
+
+**Deployment**
+- Frontend + Backend: Render
+- Database: MongoDB Atlas (AWS Mumbai)
+
+---
+
+## ⚙️ Local Setup
+
+**Prerequisites:** Node.js v20+, MongoDB Atlas account
+
+**1. Clone the repo**
 ```bash
+git clone https://github.com/harmannmahna/planify.git
+cd planify
+```
+
+**2. Backend setup**
+```bash
+cd backend
 npm install
-cp .env.example .env
+```
+
+Create a `.env` file in the backend folder:
+```
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
+
+Run the backend:
+```bash
+node server.js
+```
+
+**3. Frontend setup**
+```bash
+cd frontend
+npm install
 npm run dev
 ```
 
-This runs on `http://localhost:5173` by default. Make sure your backend (port 5000) is running alongside it.
-
-If your backend's CORS isn't already configured, add this in your `server.js`:
-
-```js
-const cors = require('cors');
-app.use(cors());
+**4. Open in browser**
+```
+http://localhost:5173
 ```
 
-## Folder structure
+---
+
+## 📂 Project Structure
 
 ```
-src/
-  api/axios.js          # Axios instance, attaches JWT from localStorage to every request
-  app/store.js           # Redux Toolkit store
-  features/
-    auth/authSlice.js     # login, register, logout thunks
-    tasks/tasksSlice.js    # fetch, create, update, delete thunks
-  components/
-    Navbar.jsx
-    ProtectedRoute.jsx     # redirects to /login if no token
-    TaskCard.jsx
-    TaskFormModal.jsx      # create/edit form, admin only
-  pages/
-    Login.jsx
-    Register.jsx
-    Dashboard.jsx          # task list, filters, admin create/edit/delete
+planify/
+│
+├── backend/
+│   ├── models/
+│   │   ├── User.js          # User schema with points + room
+│   │   └── Task.js          # Task schema
+│   ├── routes/
+│   │   ├── auth.js          # Register, login, points, room
+│   │   ├── tasks.js         # CRUD task routes
+│   │   └── room.js          # Room/shop routes
+│   ├── middleware/
+│   │   └── authMiddleware.js # JWT protect + role check
+│   └── server.js
+│
+├── frontend/
+│   └── src/
+│       ├── pages/
+│       │   ├── Login.jsx
+│       │   ├── Register.jsx
+│       │   ├── Dashboard.jsx
+│       │   └── Room.jsx
+│       ├── components/
+│       │   ├── Pomodoro.jsx
+│       │   ├── TaskFormModal.jsx
+│       │   └── ProtectedRoute.jsx
+│       └── features/
+│           ├── auth/authSlice.js
+│           └── tasks/tasksSlice.js
 ```
 
-## Expected backend response shapes
+---
 
-These pages assume your `auth.js` routes return JSON shaped like:
+## 🔮 Future Improvements
 
-```json
-// POST /api/auth/login or /api/auth/register
-{
-  "token": "jwt-here",
-  "user": { "_id": "...", "name": "...", "email": "...", "role": "user" }
-}
-```
+- Mobile responsive layout
+- Due dates and task reminders
+- Leaderboard — compare points with friends
+- More room items and themes
+- Dark / light mode toggle
+- Social sharing of room screenshots
 
-If your `auth.js` actually returns the user fields flattened at the top level (no nested `user` object, e.g. `{ token, _id, name, email, role }`), the slices already handle that too — but double check your actual auth.js response and adjust `authSlice.js` if the shape differs. Since I haven't seen your `auth.js` content, this is the one spot worth verifying against your real code.
+---
 
-## Role-based behavior
+## 👩‍💻 Author
 
-- **Admin**: sees all tasks, can create/edit/delete, can change status
-- **User**: sees only tasks assigned to them, can change status only
+**Harmann Kaur**
+- GitHub: [@harmannmahna](https://github.com/harmannmahna)
+- LinkedIn: [harmannkaurmahna](https://linkedin.com/in/harmannkaurmahna)
 
-This matches the `protect` / `adminOnly` middleware split already in your `tasks.js` route.
+---
+
+## 💡 Inspiration
+
+Built to explore how gamification can make productivity apps more engaging. Combines MERN stack development with a pixel art aesthetic to create something that's actually fun to use every day.
