@@ -31,7 +31,10 @@ app.get('/', (req, res) => {
 });
 
 // 6. DB
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 45000,
+})
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log('DB Error:', err));
 
